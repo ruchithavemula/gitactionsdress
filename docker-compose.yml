@@ -1,0 +1,41 @@
+services:
+  mysqldb:
+    image: mysql:8
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ruchi
+      MYSQL_DATABASE: dressdatabase
+    ports:
+      - "4001:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - springboot-mysql-net
+
+  backend:
+    image: ruchithavemula11/dress-backend:latest
+    container_name: dressspringboot
+    ports:
+      - "4002:4003"
+    depends_on:
+      - mysqldb
+    restart: on-failure
+    networks:
+      - springboot-mysql-net
+
+  frontend:
+    image: ruchithavemula11/dress-frontend:latest
+    container_name: dressreact
+    ports:
+      - "4004:80"
+    depends_on:
+      - backend
+    restart: on-failure
+    networks:
+      - springboot-mysql-net
+
+volumes:
+  mysql_data:
+
+networks:
+  springboot-mysql-net:
