@@ -16,7 +16,7 @@ services:
     image: ruchithavemula11/dress-backend:latest
     container_name: dressspringboot
     ports:
-      - "4002:4003"
+      - "4002:8080"
     depends_on:
       - mysqldb
     restart: on-failure
